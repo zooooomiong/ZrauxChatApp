@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block title %}Welcome to Zraux{% endblock %}
+{% block styles %}
+
+{% endblock %}
+{% block content %}
+    <!-- Main Content Wrapper -->
+    <div class="content">
+        <!-- Header Section -->
+        <header class="header">
+            <h1>Welcome to Zraux</h1>
+            <p>Connect with friends and colleagues instantly</p>
+        </header>
+
+        <!-- Features Section -->
+        <section class="features-section container">
+            <div class="row">
+                <div class="col-md-4 feature-box">
+                    <!-- Messaging Feature SVG -->
+                    <svg fill="#000000" height="100px" width="100px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 458 458" xml:space="preserve">
+                    <g>
+                        <g>
+                            <path d="M428,41.534H30c-16.569,0-30,13.431-30,30v252c0,16.568,13.432,30,30,30h132.1l43.942,52.243    c5.7,6.777,14.103,10.69,22.959,10.69c8.856,0,17.258-3.912,22.959-10.69l43.942-52.243H428c16.568,0,30-13.432,30-30v-252    C458,54.965,444.568,41.534,428,41.534z M323.916,281.534H82.854c-8.284,0-15-6.716-15-15s6.716-15,15-15h241.062    c8.284,0,15,6.716,15,15S332.2,281.534,323.916,281.534z M67.854,198.755c0-8.284,6.716-15,15-15h185.103c8.284,0,15,6.716,15,15    s-6.716,15-15,15H82.854C74.57,213.755,67.854,207.039,67.854,198.755z M375.146,145.974H82.854c-8.284,0-15-6.716-15-15    s6.716-15,15-15h292.291c8.284,0,15,6.716,15,15C390.146,139.258,383.43,145.974,375.146,145.974z"/>
+                        </g>
+                    </g>
+                    </svg>
+                    <h3>Real-time Messaging</h3>
+                    <p>Send messages instantly with our real-time chat system.</p>
+                </div>
+                <div class="col-md-4 feature-box">
+                    <!-- User Friendly Feature SVG -->
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="bi bi-person-fill">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 12c2.55 0 4.5-2.03 4.5-4.5S14.55 3 12 3 7.5 5.03 7.5 7.5 9.45 12 12 12zm0 1.5c-4.27 0-7.5 2.29-7.5 5.5v1.5h15v-1.5c0-3.21-3.23-5.5-7.5-5.5z" />
+                    </svg>
+                    <h3>Easy to Use</h3>
+                    <p>Our clean, intuitive interface makes chatting effortless.</p>
+                </div>
+                <div class="col-md-4 feature-box">
+                    <!-- Secure Conversations SVG -->
+                     <svg width="100px" height="100px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" id="secure" class="icon glyph">
+                        <path d="M19.42,3.83,12.24,2h0A.67.67,0,0,0,12,2a.67.67,0,0,0-.2,0h0L4.58,3.83A2,2,0,0,0,3.07,5.92l.42,5.51a12,12,0,0,0,7.24,10.11l.88.38h0a.91.91,0,0,0,.7,0h0l.88-.38a12,12,0,0,0,7.24-10.11l.42-5.51A2,2,0,0,0,19.42,3.83ZM15.71,9.71l-4,4a1,1,0,0,1-1.42,0l-2-2a1,1,0,0,1,1.42-1.42L11,11.59l3.29-3.3a1,1,0,0,1,1.42,1.42Z" style="fill:#231f20"/>
+                    </svg>
+                    <h3>Secure Conversations</h3>
+                    <p>Your chats are protected with top-tier security measures.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action Section -->
+        <section class="cta-section">
+            <h2>Join the Conversation</h2>
+            <p>Sign up today and start chatting with people across the world!</p>
+            <a href="{% url 'signup' %}">Get Started</a>
+        </section>
+
+        <!-- Footer Section -->
+        <footer class="footer">
+            <p>&copy; 2024 Zraux. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <nav class="bottom-nav">
+        <a href="#">
+            <!-- Example SVG Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" class="bi bi-house">
+                <path d="M8 3.293l6 6V14a1 1 0 0 1-1 1h-4v-4H7v4H3a1 1 0 0 1-1-1v-4.707l6-6z"/>
+                <path d="M7.293 1.293a1 1 0 0 1 1.414 0l6 6a1 1 0 0 1-1.414 1.414L13 8.414V14a2 2 0 0 1-2 2H9v-4H7v4H5a2 2 0 0 1-2-2V8.414L1.707 8.707a1 1 0 0 1-1.414-1.414l6-6z"/>
+            </svg>
+            Home
+        </a>
+        <a href="#">
+            <!-- Example SVG Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" class="bi bi-search">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85zm-5.742 1.656a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"/>
+            </svg>
+            Search
+        </a>
+        <a href="#">
+            <!-- Example SVG Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" class="bi bi-person">
+                <path d="M8 8a3 3 0 1 0-0.001-6.001A3 3 0 0 0 8 8zM14 14s-1-1.5-6-1.5S2 14 2 14v1h12v-1z"/>
+            </svg>
+            Profile
+        </a>
+    </nav>
+{% endblock %}

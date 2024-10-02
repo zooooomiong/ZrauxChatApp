@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+
+{% block title %}Chat Application{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center">Chat Application</h1>
+
+    <!-- Button to open search modal -->
+    <div class="text-center my-4">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#searchModal">
+            Search User
+        </button>
+    </div>
+
+    <!-- Search Modal -->
+    <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form id="searchForm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="searchModalLabel">Search User</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" name="s" class="form-control" placeholder="Enter username to search..." required id="searchInput" />
+                        <div id="searchResults" class="mt-2"></div> <!-- Container for search results -->
+                        <div id="loadingSpinner" class="text-center mt-3" style="display:none;">
+                            <div class="spinner-border" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                        <div id="searchFeedback" class="mt-2 text-danger"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Display existing chats -->
+    <div class="mt-5">
+        <h2>Existing Chats</h2>
+        <div class="list-group">
+            {% for chat in chats %}
+                <a href="{% url 'room' chat.id %}" class="list-group-item list-group-item-action">
+                    {{ chat.user }}
+                </a>
+            {% empty %}
+                <p>No existing chats. Start a new conversation!</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Custom JS for handling search and starting chats -->
+<script>
+   // Function to get CSRF token from cookies
+function getCSRFToken() {
+    let cookieValue = null;
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.startsWith('csrftoken=')) {
+            cookieValue = cookie.substring('csrftoken='.length, cookie.length);
+            break;
+        }
+    }
+    return cookieValue;
+}
+
+// Handle search user dynamically as user types
+$('#searchInput').on('input', function () {
+    const searchTerm = $(this).val();
+    $('#searchResults').empty(); // Clear previous results
+
+    if (searchTerm.length > 0) {
+        // Show the loading spinner
+        $('#loadingSpinner').show();
+        $('#searchFeedback').text(''); // Clear previous feedback
+
+        $.ajax({
+            type: 'GET', // Use GET for search
+            url: "{% url 'search_user' %}",
+            data: {
+                s: searchTerm,
+                csrfmiddlewaretoken: getCSRFToken() // Include CSRF token
+            },
+            success: function (data) {
+                $('#loadingSpinner').hide(); // Hide the spinner
+                if (data.user) {
+                    $('#searchResults').html(`
+                        <div class="search-result">
+                            <span>${data.user.username}</span>
+                            <button id="selectUserBtn" data-user-id="${data.user.id}" class="btn btn-success btn-sm">Select</button>
+                        </div>
+                    `);
+                } else {
+                    $('#searchResults').html('<p>No user found.</p>');
+                }
+            },
+            error: function () {
+                $('#loadingSpinner').hide(); // Hide the spinner
+                $('#searchFeedback').text('Error searching for user.');
+            }
+        });
+    } else {
+        $('#searchResults').empty(); // Clear results if input is empty
+    }
+});
+
+// Handle select and start chat
+$(document).on('click', '#selectUserBtn', function () {
+    const userId = $(this).data('user-id');
+
+    $.ajax({
+        type: 'POST',
+        url: "{% url 'start_chat' %}",
+        data: {
+            user_id: userId,
+            csrfmiddlewaretoken: getCSRFToken() // Include CSRF token
+        },
+        success: function (data) {
+            if (data.success) {
+                $('#searchFeedback').text(data.message).removeClass('text-danger').addClass('text-success');
+                setTimeout(function () {
+                    location.reload(); // Reload the page to reflect the new chat
+                }, 1000);
+            } else {
+                $('#searchFeedback').text(data.message);
+            }
+        },
+        error: function () {
+            $('#searchFeedback').text('Error starting chat');
+        }
+    });
+});
+
+// Prevent the default form submission behavior
+$('#searchForm').on('submit', function (e) {
+    e.preventDefault(); // Prevent the default form submission
+});
+
+</script>
+
+{% endblock %}

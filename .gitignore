@@ -1,0 +1,22 @@
+# Python cache files
+__pycache__/
+*.py[cod]
+
+# Environment variables
+.env
+
+# Django migration files
+accounts/migrations/
+chat/migrations/
+
+# SQLite database
+db.sqlite3
+
+# Static files (admin and others)
+static/admin/
+static/admin/js/
+static/admin/js/vendor/
+static/
+
+# Media files (optional, if using media for uploads)
+media/

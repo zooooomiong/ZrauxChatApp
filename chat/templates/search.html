@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+      <form method="Get">
+
+        <input type="text" name="s" placeholder="Search"/>
+        <intput type="submit" name="submit" value="submit"/>
+      </form>
+      <div>
+        {% if user %}
+        <form method="Post">
+            {% csrf_token %}
+            <input name="user_id" value="{{user.id}}" type="text" readonly />
+            <input type="submit" name="submit" value="submit"/>
+        </form>
+        {% endif%}
+      </div>
+    </body>
+</html>
