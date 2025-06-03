@@ -1,7 +1,7 @@
 
 # ZrauxChatApp
 
-**ZrauxChatApp** is a real-time messaging application built with Django, Redis, Celery, and WebSocket. It supports real-time communication, duo chats.
+ZrauxChatApp is a real-time messaging application built with Django, Redis, Celery, and WebSocket. It supports real-time communication, duo chats.
 
 ## Table of Contents
 
