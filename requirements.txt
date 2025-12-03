@@ -1,6 +1,0 @@
-django
-python-dotenv
-daphne
-channels
-celery
-gevent
