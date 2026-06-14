@@ -4,3 +4,6 @@ daphne
 channels
 celery
 gevent
+psycopg2-binary
+redis
+channels-redis
