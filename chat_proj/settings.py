@@ -6,7 +6,6 @@ import dotenv
 
 dotenv.load_dotenv()
 
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -14,15 +13,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(int(os.getenv("DEBUG", True)))
 
 ALLOWED_HOSTS = ['localhost',"127.0.0.1"]
-
 
 # Application definition
 
 INSTALLED_APPS = [
-    
     "daphne",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -66,11 +63,20 @@ TEMPLATES = [
 ASGI_APPLICATION = 'chat_proj.asgi.application'
 
 # Database
+POSTGRES_DB = os.getenv("POSTGRES_DB")
+POSTGRES_USER = os.getenv("POSTGRES_USER")
+POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD")
+POSTGRES_HOST = os.getenv("POSTGRES_HOST", "127.0.0.1")
+POSTGRES_PORT = int(os.getenv("POSTGRES_PORT", 5432))
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "data"/ "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": POSTGRES_DB,
+        "USER": POSTGRES_USER,
+        "PASSWORD": POSTGRES_PASSWORD,
+        "HOST": POSTGRES_HOST,
+        "PORT": POSTGRES_PORT
     }
 }
 
@@ -114,12 +120,17 @@ STATIC_ROOT = "static"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
+REDIS_HOST = os.getenv("REDIS_HOST", "127.0.0.1")
+REDIS_PORT = int(os.getenv("REDIS_PORT", 6379))
 
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("127.0.0.1", 6379)],
+            "hosts": [{
+                "address": f"redis://{REDIS_HOST}:{REDIS_PORT}/0",
+                "socket_timeout": None,
+            }],
         },
     },
 }
@@ -127,6 +138,7 @@ CHANNEL_LAYERS = {
 # CHANNEL_LAYERS = {
 #     "default": {
 #         "BACKEND": "channels.layers.InMemoryChannelLayer"
+#         "socket_timeout": None,
 #     }
 # }
 
@@ -144,8 +156,8 @@ AUTH_USER_MODEL = "accounts.User"
 
 # Celery Configuration Options
 
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_BROKER_URL = f'redis://{REDIS_HOST}:{REDIS_PORT}/1'
+CELERY_RESULT_BACKEND = f'redis://{REDIS_HOST}:{REDIS_PORT}/1'
 
 CELERY_TASK_ALWAYS_EAGER = True
 CELERY_TASK_EAGER_PROPAGATES = True
