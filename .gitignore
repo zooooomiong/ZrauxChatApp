@@ -13,10 +13,10 @@ chat/migrations/
 db.sqlite3
 
 # Static files (admin and others)
-static/admin/
-static/admin/js/
-static/admin/js/vendor/
-static/
+static
 
 # Media files (optional, if using media for uploads)
-media/
+media
+
+# Vscode configuration
+.vscode
