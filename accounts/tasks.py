@@ -22,7 +22,7 @@ def send_code_via_email(id, addr="code@zraux.com"):
             from_email=from_email,
             recipient_list=recipient_list,
             fail_silently=False,
-        ) if not settings.DEBIG else print(message)
+        ) if not settings.DEBUG else print(message)
     
     except User.DoesNotExist:
         pass
