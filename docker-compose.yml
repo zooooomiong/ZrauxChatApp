@@ -1,0 +1,41 @@
+services:
+  django:
+    build: .
+    command: daphne -b 0.0.0.0 -p 8000 chat_proj.asgi:application
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - redis
+    env_file:
+      - .env
+
+    restart: unless-stopped
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+
+  celery:
+    build: .
+    command: celery -A chat_proj worker -l info
+    depends_on:
+      - db
+      - redis
+    env_file:
+      - .env
+
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
